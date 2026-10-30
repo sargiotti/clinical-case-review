@@ -5,6 +5,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
+import { CaseDetailPage } from './modules/case-detail/CaseDetailPage/CaseDetailPage.tsx';
 import { CaseListPage } from './modules/case-list/CaseListPage/CaseListPage.tsx';
 
 const theme = createTheme();
@@ -13,7 +14,10 @@ const theme = createTheme();
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
 // createBrowserRouter (not <BrowserRouter>) because the unsaved-changes warning needs useBlocker.
-const router = createBrowserRouter([{ path: '/', element: <CaseListPage /> }]);
+const router = createBrowserRouter([
+  { path: '/', element: <CaseListPage /> },
+  { path: '/cases/:caseId', element: <CaseDetailPage /> },
+]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
