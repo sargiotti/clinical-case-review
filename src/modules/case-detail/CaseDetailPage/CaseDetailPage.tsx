@@ -6,6 +6,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Link as RouterLink, useParams } from 'react-router';
+import { ImagingReportList } from '../components/ImagingReportList/ImagingReportList';
 import { LabResultsTable } from '../components/LabResultsTable/LabResultsTable';
 import { ListSection } from '../components/ListSection/ListSection';
 import { PatientSummary } from '../components/PatientSummary/PatientSummary';
@@ -53,6 +54,7 @@ function CaseDetailContent({ caseId }: { caseId: string }) {
       <ListSection title="Symptoms" items={data.symptoms} />
       <ListSection title="Medical history" items={data.patient.medicalHistory} />
       <LabResultsTable labResults={data.labResults} />
+      <ImagingReportList reports={data.imagingReports} />
     </>
   );
 }
