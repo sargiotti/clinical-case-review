@@ -1,0 +1,273 @@
+[
+  {
+    "id": "C-001",
+    "patient": { "firstName": "Laura", "lastName": "Martinez", "age": 67, "medicalHistory": ["Chronic kidney disease", "Hypertension"] },
+    "status": "open",
+    "priority": "urgent",
+    "updatedAt": "2026-10-28T09:15:00Z",
+    "symptoms": ["Muscle weakness", "Palpitations"],
+    "labResults": [
+      { "id": "C-001-L1", "testCode": "K", "name": "Potassium", "value": 6.8, "unit": "mmol/L" },
+      { "id": "C-001-L2", "testCode": "NA", "name": "Sodium", "value": 138, "unit": "mmol/L" }
+    ],
+    "imagingReports": [
+      { "id": "C-001-I1", "modality": "Chest X-ray", "findings": "No acute cardiopulmonary findings.", "flaggedAbnormal": false }
+    ],
+    "timeline": [
+      { "id": "C-001-E1", "type": "test_ordered", "at": "2026-10-28T07:30:00Z", "description": "Electrolyte panel and chest X-ray ordered" },
+      { "id": "C-001-E2", "type": "result_received", "at": "2026-10-28T09:15:00Z", "description": "Electrolyte panel received" }
+    ]
+  },
+  {
+    "id": "C-002",
+    "patient": { "firstName": "James", "lastName": "Okafor", "age": 45, "medicalHistory": ["Type 2 diabetes"] },
+    "status": "open",
+    "priority": "medium",
+    "updatedAt": "2026-10-27T14:00:00Z",
+    "symptoms": ["Fatigue", "Increased thirst"],
+    "labResults": [
+      { "id": "C-002-L1", "testCode": "GLU", "name": "Glucose", "value": 182, "unit": "mg/dL" },
+      { "id": "C-002-L2", "testCode": "K", "name": "Potassium", "value": 5.0, "unit": "mmol/L" }
+    ],
+    "imagingReports": [],
+    "timeline": [
+      { "id": "C-002-E1", "type": "test_ordered", "at": "2026-10-27T10:00:00Z", "description": "Metabolic panel ordered" },
+      { "id": "C-002-E2", "type": "result_received", "at": "2026-10-27T14:00:00Z", "description": "Metabolic panel received" }
+    ]
+  },
+  {
+    "id": "C-003",
+    "patient": { "firstName": "Sofia", "lastName": "Rossi", "age": 34, "medicalHistory": [] },
+    "status": "assessed",
+    "priority": "high",
+    "updatedAt": "2026-10-26T16:40:00Z",
+    "symptoms": ["Fever", "Productive cough", "Shortness of breath"],
+    "labResults": [
+      { "id": "C-003-L1", "testCode": "WBC", "name": "White blood cells", "value": 14.2, "unit": "x10^9/L" },
+      { "id": "C-003-L2", "testCode": "CRP", "name": "C-reactive protein", "value": 48, "unit": "mg/L" }
+    ],
+    "imagingReports": [
+      { "id": "C-003-I1", "modality": "Chest X-ray", "findings": "Patchy opacity in the right lower lobe.", "flaggedAbnormal": true }
+    ],
+    "timeline": [
+      { "id": "C-003-E1", "type": "test_ordered", "at": "2026-10-26T11:00:00Z", "description": "Blood count, CRP and chest X-ray ordered" },
+      { "id": "C-003-E2", "type": "result_received", "at": "2026-10-26T14:30:00Z", "description": "Chest X-ray report received" },
+      { "id": "C-003-E3", "type": "assessment_saved", "at": "2026-10-26T16:40:00Z", "description": "Assessment saved" }
+    ],
+    "assessment": {
+      "workingAssessment": "Possible community-acquired pneumonia",
+      "confidence": "low",
+      "nextAction": "order_tests",
+      "notes": "Imaging suggestive but not conclusive. Sputum culture requested.",
+      "savedAt": "2026-10-26T16:40:00Z"
+    }
+  },
+  {
+    "id": "C-004",
+    "patient": { "firstName": "Henrik", "lastName": "Larsen", "age": 72, "medicalHistory": ["Atrial fibrillation", "Heart failure"] },
+    "status": "assessed",
+    "priority": "medium",
+    "updatedAt": "2026-10-10T12:00:00Z",
+    "symptoms": ["Ankle swelling"],
+    "labResults": [
+      { "id": "C-004-L1", "testCode": "NA", "name": "Sodium", "value": 133, "unit": "mmol/L" },
+      { "id": "C-004-L2", "testCode": "K", "name": "Potassium", "value": 4.2, "unit": "mmol/L" }
+    ],
+    "imagingReports": [
+      { "id": "C-004-I1", "modality": "Echocardiogram", "findings": "Mildly reduced ejection fraction, unchanged from prior study.", "flaggedAbnormal": true }
+    ],
+    "timeline": [
+      { "id": "C-004-E1", "type": "test_ordered", "at": "2026-10-09T09:00:00Z", "description": "Electrolytes and echocardiogram ordered" },
+      { "id": "C-004-E2", "type": "result_received", "at": "2026-10-09T15:00:00Z", "description": "Echocardiogram report received" },
+      { "id": "C-004-E3", "type": "assessment_saved", "at": "2026-10-10T12:00:00Z", "description": "Assessment saved" }
+    ],
+    "assessment": {
+      "workingAssessment": "Stable chronic heart failure with mild hyponatraemia",
+      "confidence": "high",
+      "nextAction": "follow_up",
+      "notes": "Repeat electrolytes at follow-up.",
+      "followUpDate": "2026-10-20",
+      "savedAt": "2026-10-10T12:00:00Z"
+    }
+  },
+  {
+    "id": "C-005",
+    "patient": { "firstName": "Amara", "lastName": "Nwosu", "age": 29, "medicalHistory": ["Heavy menstrual bleeding"] },
+    "status": "open",
+    "priority": "high",
+    "updatedAt": "2026-10-28T18:20:00Z",
+    "symptoms": ["Dizziness", "Pale skin", "Fatigue"],
+    "labResults": [
+      { "id": "C-005-L1", "testCode": "HB", "name": "Haemoglobin", "value": 6.5, "unit": "g/dL" }
+    ],
+    "imagingReports": [],
+    "timeline": [
+      { "id": "C-005-E1", "type": "test_ordered", "at": "2026-10-28T16:00:00Z", "description": "Full blood count ordered" },
+      { "id": "C-005-E2", "type": "result_received", "at": "2026-10-28T18:20:00Z", "description": "Full blood count received" }
+    ]
+  },
+  {
+    "id": "C-006",
+    "patient": { "firstName": "Thomas", "lastName": "Becker", "age": 58, "medicalHistory": ["Hyperlipidaemia"] },
+    "status": "reviewed",
+    "priority": "low",
+    "updatedAt": "2026-10-22T10:30:00Z",
+    "symptoms": ["Intermittent chest discomfort on exertion"],
+    "labResults": [
+      { "id": "C-006-L1", "testCode": "HB", "name": "Haemoglobin", "value": 14.1, "unit": "g/dL" },
+      { "id": "C-006-L2", "testCode": "GLU", "name": "Glucose", "value": 95, "unit": "mg/dL" }
+    ],
+    "imagingReports": [
+      { "id": "C-006-I1", "modality": "Chest X-ray", "findings": "Normal heart size. Clear lungs.", "flaggedAbnormal": false }
+    ],
+    "timeline": [
+      { "id": "C-006-E1", "type": "test_ordered", "at": "2026-10-20T08:00:00Z", "description": "Blood tests and chest X-ray ordered" },
+      { "id": "C-006-E2", "type": "result_received", "at": "2026-10-20T13:00:00Z", "description": "Results received" },
+      { "id": "C-006-E3", "type": "assessment_saved", "at": "2026-10-21T09:00:00Z", "description": "Assessment saved" },
+      { "id": "C-006-E4", "type": "case_reviewed", "at": "2026-10-22T10:30:00Z", "description": "Case marked as reviewed" }
+    ],
+    "assessment": {
+      "workingAssessment": "Suspected stable angina",
+      "confidence": "medium",
+      "nextAction": "refer",
+      "notes": "Refer to cardiology for stress testing.",
+      "followUpDate": "2026-11-15",
+      "savedAt": "2026-10-21T09:00:00Z"
+    }
+  },
+  {
+    "id": "C-007",
+    "patient": { "firstName": "Mei", "lastName": "Chen", "age": 51, "medicalHistory": ["Hypothyroidism"] },
+    "status": "open",
+    "priority": "low",
+    "updatedAt": "2026-10-25T11:10:00Z",
+    "symptoms": ["Mild cramps"],
+    "labResults": [
+      { "id": "C-007-L1", "testCode": "K", "name": "Potassium", "value": 5.1, "unit": "mmol/L" },
+      { "id": "C-007-L2", "testCode": "NA", "name": "Sodium", "value": 141, "unit": "mmol/L" }
+    ],
+    "imagingReports": [],
+    "timeline": [
+      { "id": "C-007-E1", "type": "test_ordered", "at": "2026-10-25T08:30:00Z", "description": "Electrolyte panel ordered" },
+      { "id": "C-007-E2", "type": "result_received", "at": "2026-10-25T11:10:00Z", "description": "Electrolyte panel received" }
+    ]
+  },
+  {
+    "id": "C-008",
+    "patient": { "firstName": "Diego", "lastName": "Fernandez", "age": 19, "medicalHistory": [] },
+    "status": "assessed",
+    "priority": "low",
+    "updatedAt": "2026-10-24T15:45:00Z",
+    "symptoms": ["Wrist pain after fall"],
+    "labResults": [],
+    "imagingReports": [
+      { "id": "C-008-I1", "modality": "Wrist X-ray", "findings": "No fracture or dislocation.", "flaggedAbnormal": false }
+    ],
+    "timeline": [
+      { "id": "C-008-E1", "type": "test_ordered", "at": "2026-10-24T13:00:00Z", "description": "Wrist X-ray ordered" },
+      { "id": "C-008-E2", "type": "result_received", "at": "2026-10-24T14:30:00Z", "description": "Wrist X-ray report received" },
+      { "id": "C-008-E3", "type": "assessment_saved", "at": "2026-10-24T15:45:00Z", "description": "Assessment saved" }
+    ],
+    "assessment": {
+      "workingAssessment": "Wrist sprain",
+      "confidence": "high",
+      "nextAction": "discharge",
+      "notes": "Rest, ice and analgesia. Return if pain persists.",
+      "savedAt": "2026-10-24T15:45:00Z"
+    }
+  },
+  {
+    "id": "C-009",
+    "patient": { "firstName": "Grace", "lastName": "Whitfield", "age": 81, "medicalHistory": ["Hypertension", "Diuretic therapy"] },
+    "status": "open",
+    "priority": "urgent",
+    "updatedAt": "2026-10-29T07:50:00Z",
+    "symptoms": ["Confusion", "Nausea"],
+    "labResults": [
+      { "id": "C-009-L1", "testCode": "NA", "name": "Sodium", "value": 118, "unit": "mmol/L" },
+      { "id": "C-009-L2", "testCode": "GLU", "name": "Glucose", "value": 104, "unit": "mg/dL" }
+    ],
+    "imagingReports": [
+      { "id": "C-009-I1", "modality": "Head CT", "findings": "No acute intracranial abnormality.", "flaggedAbnormal": false }
+    ],
+    "timeline": [
+      { "id": "C-009-E1", "type": "test_ordered", "at": "2026-10-29T05:30:00Z", "description": "Metabolic panel and head CT ordered" },
+      { "id": "C-009-E2", "type": "result_received", "at": "2026-10-29T07:50:00Z", "description": "Metabolic panel received" }
+    ]
+  },
+  {
+    "id": "C-010",
+    "patient": { "firstName": "Omar", "lastName": "Haddad", "age": 40, "medicalHistory": ["Asthma"] },
+    "status": "reviewed",
+    "priority": "medium",
+    "updatedAt": "2026-10-23T17:00:00Z",
+    "symptoms": ["Wheezing", "Night-time cough"],
+    "labResults": [
+      { "id": "C-010-L1", "testCode": "WBC", "name": "White blood cells", "value": 7.8, "unit": "x10^9/L" }
+    ],
+    "imagingReports": [
+      { "id": "C-010-I1", "modality": "Chest X-ray", "findings": "Mild hyperinflation, no consolidation.", "flaggedAbnormal": false }
+    ],
+    "timeline": [
+      { "id": "C-010-E1", "type": "test_ordered", "at": "2026-10-22T09:00:00Z", "description": "Blood count and chest X-ray ordered" },
+      { "id": "C-010-E2", "type": "result_received", "at": "2026-10-22T12:00:00Z", "description": "Results received" },
+      { "id": "C-010-E3", "type": "assessment_saved", "at": "2026-10-23T10:00:00Z", "description": "Assessment saved" },
+      { "id": "C-010-E4", "type": "case_reviewed", "at": "2026-10-23T17:00:00Z", "description": "Case marked as reviewed" }
+    ],
+    "assessment": {
+      "workingAssessment": "Poorly controlled asthma",
+      "confidence": "high",
+      "nextAction": "follow_up",
+      "notes": "Inhaler technique reviewed. Step up controller therapy.",
+      "followUpDate": "2026-11-20",
+      "savedAt": "2026-10-23T10:00:00Z"
+    }
+  },
+  {
+    "id": "C-011",
+    "patient": { "firstName": "Nadia", "lastName": "Petrova", "age": 63, "medicalHistory": ["Rheumatoid arthritis"] },
+    "status": "open",
+    "priority": "medium",
+    "updatedAt": "2026-10-28T12:25:00Z",
+    "symptoms": ["Joint swelling", "Low-grade fever"],
+    "labResults": [
+      { "id": "C-011-L1", "testCode": "CRP", "name": "C-reactive protein", "value": 22, "unit": "mg/L" },
+      { "id": "C-011-L2", "testCode": "HB", "name": "Haemoglobin", "value": 11.4, "unit": "g/dL" }
+    ],
+    "imagingReports": [
+      { "id": "C-011-I1", "modality": "Hand X-ray", "findings": "Periarticular erosions at the MCP joints.", "flaggedAbnormal": true }
+    ],
+    "timeline": [
+      { "id": "C-011-E1", "type": "test_ordered", "at": "2026-10-28T08:00:00Z", "description": "Inflammatory markers and hand X-ray ordered" },
+      { "id": "C-011-E2", "type": "result_received", "at": "2026-10-28T12:25:00Z", "description": "Results received" }
+    ]
+  },
+  {
+    "id": "C-012",
+    "patient": { "firstName": "Lucas", "lastName": "Moreau", "age": 55, "medicalHistory": ["Type 2 diabetes", "Obesity"] },
+    "status": "assessed",
+    "priority": "high",
+    "updatedAt": "2026-10-27T19:05:00Z",
+    "symptoms": ["Abdominal pain", "Vomiting"],
+    "labResults": [
+      { "id": "C-012-L1", "testCode": "GLU", "name": "Glucose", "value": 310, "unit": "mg/dL" },
+      { "id": "C-012-L2", "testCode": "WBC", "name": "White blood cells", "value": 12.5, "unit": "x10^9/L" }
+    ],
+    "imagingReports": [
+      { "id": "C-012-I1", "modality": "Abdominal ultrasound", "findings": "Gallbladder wall thickening with pericholecystic fluid.", "flaggedAbnormal": true }
+    ],
+    "timeline": [
+      { "id": "C-012-E1", "type": "test_ordered", "at": "2026-10-27T15:00:00Z", "description": "Blood tests and abdominal ultrasound ordered" },
+      { "id": "C-012-E2", "type": "result_received", "at": "2026-10-27T17:30:00Z", "description": "Ultrasound report received" },
+      { "id": "C-012-E3", "type": "assessment_saved", "at": "2026-10-27T19:05:00Z", "description": "Assessment saved" }
+    ],
+    "assessment": {
+      "workingAssessment": "Acute cholecystitis",
+      "confidence": "medium",
+      "nextAction": "refer",
+      "notes": "Surgical review requested.",
+      "followUpDate": "2026-10-31",
+      "savedAt": "2026-10-27T19:05:00Z"
+    }
+  }
+]
