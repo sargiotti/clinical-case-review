@@ -1,8 +1,9 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route, Routes } from 'react-router';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { caseApi } from '../../../../api/case-api';
+import { fillAssessmentForm } from '../../../../test/assessment-form';
 import { detailedCase } from '../../../../test/mock-cases';
 import { renderWithProviders } from '../../../../test/render';
 import { CaseDetailPage } from '../CaseDetailPage';
@@ -47,6 +48,31 @@ describe('CaseDetailPage', () => {
     for (const name of ['Patient', 'Symptoms', 'Medical history', 'Laboratory results', 'Imaging reports', 'Timeline']) {
       expect(await screen.findByRole('heading', { name, level: 2 })).toBeInTheDocument();
     }
+  });
+
+  it('shows the new timeline event after an assessment is saved', async () => {
+    const user = userEvent.setup();
+    const updatedCase = {
+      ...detailedCase,
+      status: 'assessed' as const,
+      timeline: [
+        ...detailedCase.timeline,
+        { id: 'E4', type: 'assessment_saved' as const, at: '2026-10-29T08:00:00Z', description: 'Assessment saved' },
+      ],
+    };
+    // The first load returns the open case; the load after the save returns the updated one.
+    vi.spyOn(caseApi, 'getCase').mockResolvedValueOnce(detailedCase).mockResolvedValue(updatedCase);
+    vi.spyOn(caseApi, 'saveAssessment').mockResolvedValue(updatedCase);
+    renderPage();
+
+    await screen.findByRole('heading', { name: 'Timeline' });
+    expect(screen.getAllByText('Assessment saved')).toHaveLength(1);
+
+    await fillAssessmentForm(user, 'Follow up');
+    await user.type(screen.getByLabelText(/Follow-up date/), '2999-01-01');
+    await user.click(screen.getByRole('button', { name: 'Save assessment' }));
+
+    await waitFor(() => expect(screen.getAllByText('Assessment saved')).toHaveLength(2));
   });
 
   it('shows an error when the case cannot be loaded, and Retry loads it', async () => {
