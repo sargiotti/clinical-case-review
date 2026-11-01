@@ -1,5 +1,6 @@
 import type { ConfidenceLevel, NextAction } from '../../domain/assessment';
 import type { CasePriority, CaseStatus } from '../../domain/case';
+import type { ReviewReason } from '../../domain/review';
 
 // Presentation only: turns raw domain values into text for people. Domain data stays raw everywhere else.
 
@@ -25,6 +26,12 @@ export const PRIORITY_LABELS: Record<CasePriority, string> = {
   medium: 'Medium',
   high: 'High',
   urgent: 'Urgent',
+};
+
+export const REVIEW_REASON_LABELS: Record<ReviewReason, string> = {
+  critical_result: 'Critical result',
+  overdue_follow_up: 'Overdue follow-up',
+  low_confidence: 'Low confidence',
 };
 
 export const CONFIDENCE_LABELS: Record<ConfidenceLevel, string> = {

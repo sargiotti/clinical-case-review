@@ -32,6 +32,13 @@ describe('CaseListPage', () => {
     expect(await getListedCaseIds()).toEqual(['C-001', 'C-002', 'C-003', 'C-004']);
   });
 
+  it('links to the review queue', async () => {
+    renderWithProviders(<CaseListPage />);
+
+    expect(screen.getByRole('link', { name: 'Review queue' })).toHaveAttribute('href', '/review');
+    await getListedCaseIds();
+  });
+
   it('applies the filters from the URL and counts the matching cases', async () => {
     renderWithProviders(<CaseListPage />, '/?status=open');
 

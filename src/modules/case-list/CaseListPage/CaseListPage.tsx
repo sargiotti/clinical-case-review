@@ -2,8 +2,10 @@ import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { Link as RouterLink } from 'react-router';
 import { useCases } from '../../../shared/hooks/useCases';
 import { CaseFiltersBar } from '../components/CaseFiltersBar/CaseFiltersBar';
 import { CaseTable } from '../components/CaseTable/CaseTable';
@@ -15,9 +17,14 @@ export function CaseListPage() {
   return (
     <Container component="main" sx={{ py: 3 }}>
       <Stack spacing={3}>
-        <Typography variant="h4" component="h1">
-          Clinical cases
-        </Typography>
+        <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h4" component="h1">
+            Clinical cases
+          </Typography>
+          <Link component={RouterLink} to="/review">
+            Review queue
+          </Link>
+        </Stack>
         <CaseFiltersBar />
         <CaseListContent />
       </Stack>

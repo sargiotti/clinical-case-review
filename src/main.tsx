@@ -7,6 +7,7 @@ import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import { CaseDetailPage } from './modules/case-detail/CaseDetailPage/CaseDetailPage.tsx';
 import { CaseListPage } from './modules/case-list/CaseListPage/CaseListPage.tsx';
+import { ReviewQueuePage } from './modules/review-queue/ReviewQueuePage/ReviewQueuePage.tsx';
 
 const theme = createTheme();
 
@@ -17,6 +18,7 @@ const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false 
 const router = createBrowserRouter([
   { path: '/', element: <CaseListPage /> },
   { path: '/cases/:caseId', element: <CaseDetailPage /> },
+  { path: '/review', element: <ReviewQueuePage /> },
 ]);
 
 createRoot(document.getElementById('root')!).render(
