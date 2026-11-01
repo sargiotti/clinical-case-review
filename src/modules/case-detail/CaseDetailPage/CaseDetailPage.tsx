@@ -13,6 +13,7 @@ import { CaseTimeline } from '../components/CaseTimeline/CaseTimeline';
 import { ImagingReportList } from '../components/ImagingReportList/ImagingReportList';
 import { LabResultsTable } from '../components/LabResultsTable/LabResultsTable';
 import { ListSection } from '../components/ListSection/ListSection';
+import { MarkReviewedButton } from '../components/MarkReviewedButton/MarkReviewedButton';
 import { PatientSummary } from '../components/PatientSummary/PatientSummary';
 import { useCase } from '../hooks/useCase';
 
@@ -55,9 +56,12 @@ function CaseDetailContent({ caseId }: { caseId: string }) {
 
   return (
     <>
-      <Button variant="contained" onClick={() => setAssessing(true)} sx={{ alignSelf: 'flex-start' }}>
-        Add assessment
-      </Button>
+      <Stack direction="row" spacing={2} sx={{ alignItems: 'flex-start' }}>
+        <Button variant="contained" onClick={() => setAssessing(true)}>
+          Add assessment
+        </Button>
+        <MarkReviewedButton caseId={data.id} reviewed={data.status === 'reviewed'} />
+      </Stack>
       <PatientSummary patientCase={data} />
       <ListSection title="Symptoms" items={data.symptoms} />
       <ListSection title="Medical history" items={data.patient.medicalHistory} />
