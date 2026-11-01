@@ -33,7 +33,6 @@ describe('AssessmentModal', () => {
       notes: '',
       followUpDate: undefined,
     });
-    // The form is gone, so the assessment cannot be saved twice.
     expect(screen.queryByRole('button', { name: 'Save assessment' })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Close' }));
@@ -91,7 +90,6 @@ describe('AssessmentModal', () => {
 
     expect(await screen.findByRole('status')).toHaveTextContent('Assessment saved.');
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-    // Retry sent the same input again.
     expect(saveAssessment).toHaveBeenCalledTimes(2);
     expect(saveAssessment).toHaveBeenLastCalledWith('C-100', expect.objectContaining({ notes: 'FAIL please' }));
   });

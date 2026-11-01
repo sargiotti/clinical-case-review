@@ -6,7 +6,6 @@ import { mockCases } from '../../../../test/mock-cases';
 import { renderWithProviders } from '../../../../test/render';
 import { CaseListPage } from '../CaseListPage';
 
-// The case IDs shown in the table, top to bottom.
 async function getListedCaseIds() {
   const table = await screen.findByRole('table');
   return within(table)
@@ -16,7 +15,6 @@ async function getListedCaseIds() {
 
 describe('CaseListPage', () => {
   beforeEach(() => {
-    // Replaces the API call with deterministic data: no delay, no localStorage.
     vi.spyOn(caseApi, 'getCases').mockResolvedValue(mockCases);
   });
 
@@ -28,7 +26,6 @@ describe('CaseListPage', () => {
     renderWithProviders(<CaseListPage />);
 
     expect(screen.getByRole('progressbar', { name: 'Loading cases' })).toBeInTheDocument();
-    // mockCases is not in date order, so this proves the page sorts.
     expect(await getListedCaseIds()).toEqual(['C-001', 'C-002', 'C-003', 'C-004']);
   });
 
@@ -61,7 +58,6 @@ describe('CaseListPage', () => {
 
   it('shows an error when loading fails, and Retry loads the cases', async () => {
     const user = userEvent.setup();
-    // The first call fails; later calls use the default success from beforeEach.
     vi.spyOn(caseApi, 'getCases').mockRejectedValueOnce(new Error('Network down'));
     renderWithProviders(<CaseListPage />);
 

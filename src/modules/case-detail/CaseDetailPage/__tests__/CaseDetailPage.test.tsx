@@ -8,7 +8,6 @@ import { detailedCase } from '../../../../test/mock-cases';
 import { renderWithProviders } from '../../../../test/render';
 import { CaseDetailPage } from '../CaseDetailPage';
 
-// useParams only works inside a matching route, so the page is rendered under its real path.
 function renderPage() {
   return renderWithProviders(
     <Routes>
@@ -21,7 +20,6 @@ function renderPage() {
 
 describe('CaseDetailPage', () => {
   beforeEach(() => {
-    // Replaces the API call with deterministic data: no delay, no localStorage.
     vi.spyOn(caseApi, 'getCase').mockResolvedValue(detailedCase);
   });
 
@@ -45,7 +43,6 @@ describe('CaseDetailPage', () => {
   it('shows every section of the case', async () => {
     renderPage();
 
-    // The sections have their own tests; this proves each one is actually on the page.
     for (const name of ['Patient', 'Symptoms', 'Medical history', 'Laboratory results', 'Imaging reports', 'Latest assessment', 'Timeline']) {
       expect(await screen.findByRole('heading', { name, level: 2 })).toBeInTheDocument();
     }
@@ -61,7 +58,6 @@ describe('CaseDetailPage', () => {
         { id: 'E4', type: 'assessment_saved' as const, at: '2026-10-29T08:00:00Z', description: 'Assessment saved' },
       ],
     };
-    // The first load returns the open case; the load after the save returns the updated one.
     vi.spyOn(caseApi, 'getCase').mockResolvedValueOnce(detailedCase).mockResolvedValue(updatedCase);
     vi.spyOn(caseApi, 'saveAssessment').mockResolvedValue(updatedCase);
     renderPage();
@@ -84,7 +80,6 @@ describe('CaseDetailPage', () => {
 
     await user.click(screen.getByRole('button', { name: 'Add assessment' }));
     await user.type(screen.getByRole('textbox', { name: /Working assessment/ }), 'Pneumonia');
-    // The modal hides the page from the accessibility tree, so the link is found by its text.
     await user.click(screen.getByText('← Back to cases'));
 
     expect(await screen.findByText('Discard unsaved changes?')).toBeInTheDocument();
@@ -92,7 +87,6 @@ describe('CaseDetailPage', () => {
 
     await user.click(screen.getByRole('button', { name: 'Stay' }));
     expect(screen.getByTestId('location')).toHaveTextContent('/cases/C-100');
-    // Found with findBy: the confirm dialog is still fading out, and hides the modal until it is gone.
     expect(await screen.findByRole('textbox', { name: /Working assessment/ })).toHaveValue('Pneumonia');
 
     await user.click(screen.getByText('← Back to cases'));
@@ -114,7 +108,6 @@ describe('CaseDetailPage', () => {
 
   it('shows an error when the case cannot be loaded, and Retry loads it', async () => {
     const user = userEvent.setup();
-    // The first call fails; later calls use the default success from beforeEach.
     vi.spyOn(caseApi, 'getCase').mockRejectedValueOnce(new Error('Case C-100 not found'));
     renderPage();
 

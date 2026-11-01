@@ -8,8 +8,6 @@ interface CaseTimelineProps {
 }
 
 export function CaseTimeline({ events }: CaseTimelineProps) {
-  // Sort a copy: .sort() mutates, and this array belongs to the query cache.
-  // Compared as dates because ISO strings with and without milliseconds do not sort reliably as text.
   const sorted = [...events].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
 
   return (
@@ -20,7 +18,6 @@ export function CaseTimeline({ events }: CaseTimelineProps) {
       {sorted.length === 0 ? (
         <Typography color="text.secondary">None recorded</Typography>
       ) : (
-        // An ordered list, because the order is the point.
         <Stack component="ol" spacing={1} sx={{ m: 0, p: 0, listStyle: 'none' }}>
           {sorted.map((event) => (
             <li key={event.id}>

@@ -7,7 +7,6 @@ export function useSaveAssessment(caseId: string) {
 
   return useMutation({
     mutationFn: (input: AssessmentInput) => caseApi.saveAssessment(caseId, input),
-    // Refreshes the list and this detail page (same 'cases' key prefix), so the new status and timeline event show up.
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cases'] }),
   });
 }

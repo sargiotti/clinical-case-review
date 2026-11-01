@@ -6,7 +6,6 @@ export function useMarkReviewed(caseId: string) {
 
   return useMutation({
     mutationFn: () => caseApi.markReviewed(caseId),
-    // The list, this detail and the review queue all read from ['cases'], so one invalidation updates all three.
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cases'] }),
   });
 }

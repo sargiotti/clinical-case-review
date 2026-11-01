@@ -17,8 +17,6 @@ interface FlagDisplay {
   color: 'warning' | 'error';
 }
 
-// Record<ResultFlag, ...> makes the compiler demand a display for every flag. null = no chip, plain text.
-// Abnormal results use words, a symbol and colour, so colour is never the only signal.
 const FLAG_DISPLAY: Record<ResultFlag, FlagDisplay | null> = {
   normal: null,
   low: { text: 'Low', symbol: '▼', color: 'warning' },
@@ -40,7 +38,6 @@ function FlagCell({ flag }: { flag: ResultFlag | undefined }) {
       color={display.color}
       label={
         <>
-          {/* Hidden from screen readers: the text already says it. */}
           <span aria-hidden="true">{display.symbol}</span> {display.text}
         </>
       }

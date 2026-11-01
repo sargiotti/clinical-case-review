@@ -6,7 +6,6 @@ import { PRIORITY_LABELS, STATUS_LABELS } from '../../../../shared/utils/format'
 import { useCaseFilters } from '../../hooks/useCaseFilters';
 
 export function CaseFiltersBar() {
-  // The URL is the state, so reading it here and in the page cannot get out of sync.
   const { filters, setFilter } = useCaseFilters();
 
   return (

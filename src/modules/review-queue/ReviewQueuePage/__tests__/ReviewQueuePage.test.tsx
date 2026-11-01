@@ -12,7 +12,6 @@ describe('ReviewQueuePage', () => {
   });
 
   it('shows a loading indicator, then only the cases that need review, most urgent first', async () => {
-    // Given in the wrong order, and with two cases that do not belong in the queue.
     vi.spyOn(caseApi, 'getCases').mockResolvedValue([lowConfidenceCase, urgentOpenCase, lowReviewedCase, criticalLabCase]);
     renderWithProviders(<ReviewQueuePage />);
 
@@ -20,7 +19,7 @@ describe('ReviewQueuePage', () => {
     expect(await screen.findByRole('table')).toBeInTheDocument();
 
     const rows = screen.getAllByRole('row');
-    expect(rows).toHaveLength(3); // header + 2 cases
+    expect(rows).toHaveLength(3);
     expect(rows[1]).toHaveTextContent('C-005');
     expect(rows[2]).toHaveTextContent('C-006');
     expect(screen.getByRole('status')).toHaveTextContent('2 cases need review');

@@ -12,7 +12,6 @@ const assessment: Assessment = {
   savedAt: '2026-10-28T12:00:00Z',
 };
 
-// The value shown next to a label in the description list.
 function getValue(label: string) {
   return screen.getByText(label).nextElementSibling;
 }

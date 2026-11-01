@@ -18,7 +18,6 @@ describe('filterCases', () => {
   });
 
   it('combines status, priority and search', () => {
-    // Two cases are open; priority narrows to one, search narrows to the other.
     expect(filterCases(mockCases, { search: '', status: 'open', priority: 'urgent' })).toEqual([urgentOpenCase]);
     expect(filterCases(mockCases, { search: 'jo', status: 'open', priority: '' })).toEqual([mediumOpenCase]);
   });

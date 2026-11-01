@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { chooseOption, fillAssessmentForm } from '../../../../../test/assessment-form';
 import { AssessmentForm } from '../AssessmentForm';
 
-// Only Date is faked, so userEvent and React keep their normal timers.
 const TODAY = '2026-11-05';
 
 describe('AssessmentForm', () => {

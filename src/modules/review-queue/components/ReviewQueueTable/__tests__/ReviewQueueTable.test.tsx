@@ -31,7 +31,6 @@ describe('ReviewQueueTable', () => {
     );
 
     const rows = screen.getAllByRole('row');
-    // rows[0] is the header.
     expect(rows[1]).toHaveTextContent('C-006');
     expect(rows[1]).toHaveTextContent('Overdue follow-up, Low confidence');
     expect(rows[2]).toHaveTextContent('C-005');

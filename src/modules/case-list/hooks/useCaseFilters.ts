@@ -1,7 +1,6 @@
 import { useSearchParams } from 'react-router';
 import type { CaseFilters } from '../utils/filter-cases';
 
-/** Filters live in the URL (?search=&status=&priority=) so a view can be refreshed or shared. */
 export function useCaseFilters() {
   const [params, setParams] = useSearchParams();
 
@@ -15,7 +14,6 @@ export function useCaseFilters() {
     const next = new URLSearchParams(params);
     if (value) next.set(key, value);
     else next.delete(key);
-    // replace: typing in the search box should not add one history entry per keystroke.
     setParams(next, { replace: true });
   }
 

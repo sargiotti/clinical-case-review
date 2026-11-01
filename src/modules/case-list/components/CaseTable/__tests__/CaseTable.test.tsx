@@ -8,7 +8,6 @@ describe('CaseTable', () => {
   it('renders one row per case', () => {
     renderWithProviders(<CaseTable cases={mockCases} />);
 
-    // getAllByRole('row') also counts the header row.
     expect(screen.getAllByRole('row')).toHaveLength(mockCases.length + 1);
   });
 
@@ -20,7 +19,6 @@ describe('CaseTable', () => {
     expect(row).toHaveTextContent('Open');
     expect(row).toHaveTextContent('Urgent');
     expect(row).not.toHaveTextContent('urgent');
-    // The date is formatted, not the raw ISO string (the exact text depends on the time zone).
     expect(row).not.toHaveTextContent('2026-10-28T09:15:00Z');
   });
 

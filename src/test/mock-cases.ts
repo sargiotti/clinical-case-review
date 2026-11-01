@@ -1,7 +1,5 @@
 import type { CasePriority, CaseStatus, PatientCase } from '../domain/case';
 
-// Deterministic cases for tests. Independent from api/cases.json, so editing the seed data cannot break tests.
-
 interface MockCaseOptions {
   id: string;
   initials: string;
@@ -10,7 +8,6 @@ interface MockCaseOptions {
   updatedAt: string;
 }
 
-// Fills in the fields tests do not care about, so each mock case is one short call.
 function makeCase(options: MockCaseOptions): PatientCase {
   return {
     id: options.id,
@@ -57,7 +54,6 @@ export const lowReviewedCase = makeCase({
   updatedAt: '2026-10-25T10:30:00Z',
 });
 
-/** A case with data in every section, for the detail page. The timeline is deliberately not in date order. */
 export const detailedCase: PatientCase = {
   id: 'C-100',
   patient: { initials: 'AB', age: 61, medicalHistory: ['Hypertension'] },
@@ -81,17 +77,14 @@ export const detailedCase: PatientCase = {
   ],
 };
 
-/** Deliberately not in date order, so tests can prove the page sorts newest first. */
 export const mockCases: PatientCase[] = [lowReviewedCase, urgentOpenCase, highAssessedCase, mediumOpenCase];
 
-/** Needs review: potassium 7.0 is beyond the critical high limit (6.5). */
 export const criticalLabCase: PatientCase = {
   ...urgentOpenCase,
   id: 'C-005',
   labResults: [{ id: 'L1', testCode: 'K', name: 'Potassium', value: 7.0, unit: 'mmol/L' }],
 };
 
-/** Needs review: the assessment was made with low confidence. */
 export const lowConfidenceCase: PatientCase = {
   ...highAssessedCase,
   id: 'C-006',

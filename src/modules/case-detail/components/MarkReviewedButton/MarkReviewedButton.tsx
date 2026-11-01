@@ -10,7 +10,6 @@ interface MarkReviewedButtonProps {
 export function MarkReviewedButton({ caseId, reviewed }: MarkReviewedButtonProps) {
   const review = useMarkReviewed(caseId);
 
-  // The button stays after reviewing, disabled and saying so, so keyboard focus is not lost.
   const label = reviewed ? 'Reviewed' : review.isPending ? 'Marking…' : 'Mark as reviewed';
 
   return (

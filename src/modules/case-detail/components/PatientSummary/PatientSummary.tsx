@@ -22,7 +22,6 @@ export function PatientSummary({ patientCase }: PatientSummaryProps) {
       <Typography variant="h6" component="h2">
         Patient
       </Typography>
-      {/* A description list is the semantic element for label/value pairs. */}
       <Box component="dl" sx={{ display: 'grid', gridTemplateColumns: 'max-content 1fr', columnGap: 3, rowGap: 0.5, m: 0 }}>
         {details.map(([label, value]) => (
           <Fragment key={label}>

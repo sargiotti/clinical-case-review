@@ -9,7 +9,6 @@ describe('CaseFiltersBar', () => {
     renderWithProviders(<CaseFiltersBar />, '/?search=lm&status=open&priority=urgent');
 
     expect(screen.getByRole('searchbox', { name: 'Search by case ID or initials' })).toHaveValue('lm');
-    // A MUI select's accessible name also includes its current value, so match the label with a regex.
     expect(screen.getByRole('combobox', { name: /status/i })).toHaveTextContent('Open');
     expect(screen.getByRole('combobox', { name: /priority/i })).toHaveTextContent('Urgent');
   });
@@ -40,7 +39,6 @@ describe('CaseFiltersBar', () => {
     await user.click(screen.getByRole('combobox', { name: /status/i }));
     await user.click(screen.getByRole('option', { name: 'All' }));
 
-    // Only the path is left: empty filters do not leave "?status=" behind.
     expect(screen.getByTestId('location')).toHaveTextContent(/^\/$/);
   });
 });

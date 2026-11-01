@@ -7,7 +7,6 @@ export type TimelineEventType =
 export interface TimelineEvent {
   id: string;
   type: TimelineEventType;
-  /** ISO datetime. */
   at: string;
   description: string;
 }

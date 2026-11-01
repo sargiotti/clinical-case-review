@@ -12,7 +12,6 @@ import { CaseTable } from '../components/CaseTable/CaseTable';
 import { useCaseFilters } from '../hooks/useCaseFilters';
 import { filterCases } from '../utils/filter-cases';
 
-// The shell is always visible, so filters stay editable while loading or after an error.
 export function CaseListPage() {
   return (
     <Container component="main" sx={{ py: 3 }}>
@@ -32,7 +31,6 @@ export function CaseListPage() {
   );
 }
 
-// The part that changes: one early return per state.
 function CaseListContent() {
   const { filters, clearFilters } = useCaseFilters();
   const { data, isPending, isError, refetch } = useCases();
@@ -49,7 +47,6 @@ function CaseListContent() {
     );
   }
 
-  // Newest update first. filterCases returns a new array, so sorting it does not touch the cache.
   const visible = filterCases(data, filters).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 
   if (visible.length === 0) {

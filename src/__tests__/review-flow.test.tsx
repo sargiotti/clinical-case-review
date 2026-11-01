@@ -10,7 +10,6 @@ import { ReviewQueuePage } from '../modules/review-queue/ReviewQueuePage/ReviewQ
 import { criticalLabCase, lowConfidenceCase } from '../test/mock-cases';
 import { renderWithProviders } from '../test/render';
 
-// Three pages sharing one query cache, like the app. Only the API is replaced, by a tiny in-memory version.
 describe('marking a case as reviewed', () => {
   let cases: PatientCase[];
 
@@ -39,16 +38,13 @@ describe('marking a case as reviewed', () => {
       '/cases/C-005',
     );
 
-    // Detail: the button changes.
     await user.click(await screen.findByRole('button', { name: 'Mark as reviewed' }));
     expect(await screen.findByRole('button', { name: 'Reviewed' })).toBeDisabled();
 
-    // List: the row says Reviewed.
     await user.click(screen.getByRole('link', { name: '← Back to cases' }));
     const row = await screen.findByRole('row', { name: /C-005/ });
     expect(within(row).getByText('Reviewed')).toBeInTheDocument();
 
-    // Review queue: the case is gone, and the other one is still there.
     await user.click(screen.getByRole('link', { name: 'Review queue' }));
     const queue = await screen.findByRole('table', { name: 'Cases needing review' });
     expect(within(queue).queryByRole('link', { name: 'C-005' })).not.toBeInTheDocument();

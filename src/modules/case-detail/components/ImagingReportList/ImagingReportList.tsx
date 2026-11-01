@@ -7,7 +7,6 @@ interface ImagingReportListProps {
   reports: ImagingReport[];
 }
 
-// Imaging is free text, so there is no range to compare: the radiologist's flag decides.
 export function ImagingReportList({ reports }: ImagingReportListProps) {
   return (
     <Stack spacing={1}>
@@ -25,7 +24,6 @@ export function ImagingReportList({ reports }: ImagingReportListProps) {
                   {report.modality}
                 </Typography>
                 {report.flaggedAbnormal ? (
-                  // Words, a symbol and colour, same as the lab flags: colour is never the only signal.
                   <Chip
                     size="small"
                     variant="outlined"

@@ -8,7 +8,6 @@ describe('LabResultsTable', () => {
     render(<LabResultsTable labResults={detailedCase.labResults} />);
 
     const table = screen.getByRole('table', { name: 'Laboratory results' });
-    // Words, not just colour: the flag is readable text in the row.
     expect(within(table).getByRole('row', { name: /Potassium/ })).toHaveTextContent('Critical high');
     expect(within(table).getByRole('row', { name: /Haemoglobin/ })).toHaveTextContent('Low');
     expect(within(table).getByRole('row', { name: /Sodium/ })).toHaveTextContent('Normal');

@@ -17,9 +17,7 @@ import { MarkReviewedButton } from '../components/MarkReviewedButton/MarkReviewe
 import { PatientSummary } from '../components/PatientSummary/PatientSummary';
 import { useCase } from '../hooks/useCase';
 
-// The shell is always visible, so the page keeps its heading and back link while loading or after an error.
 export function CaseDetailPage() {
-  // useParams types every value as string | undefined; an empty ID simply fails to load.
   const { caseId = '' } = useParams();
 
   return (
@@ -37,7 +35,6 @@ export function CaseDetailPage() {
   );
 }
 
-// The part that changes: one early return per state.
 function CaseDetailContent({ caseId }: { caseId: string }) {
   const { data, isPending, isError, refetch } = useCase(caseId);
   const [assessing, setAssessing] = useState(false);

@@ -11,10 +11,8 @@ import { ReviewQueuePage } from './modules/review-queue/ReviewQueuePage/ReviewQu
 
 const theme = createTheme();
 
-// retry: false so a failed request shows the error state immediately instead of after silent retries.
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
-// createBrowserRouter (not <BrowserRouter>) because the unsaved-changes warning needs useBlocker.
 const router = createBrowserRouter([
   { path: '/', element: <CaseListPage /> },
   { path: '/cases/:caseId', element: <CaseDetailPage /> },

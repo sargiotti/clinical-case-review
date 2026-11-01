@@ -13,7 +13,6 @@ import {
 } from '../../../../domain/assessment';
 import { CONFIDENCE_LABELS, NEXT_ACTION_LABELS } from '../../../../shared/utils/format';
 
-// '' means "not chosen yet": the clinician must pick a confidence and an action, never accept a default.
 interface FormValues {
   workingAssessment: string;
   confidence: ConfidenceLevel | '';
@@ -38,9 +37,7 @@ const EMPTY_VALUES: FormValues = {
 };
 
 interface AssessmentFormProps {
-  /** Disables the button while a save is in flight, so it cannot be submitted twice. */
   isSaving?: boolean;
-  /** Tells the parent whether the form holds anything typed, so it can warn before that is lost. */
   onDirtyChange?: (dirty: boolean) => void;
   onSubmit: (input: AssessmentInput) => void;
 }
@@ -49,7 +46,6 @@ export function AssessmentForm({ isSaving = false, onDirtyChange, onSubmit }: As
   const [values, setValues] = useState<FormValues>(EMPTY_VALUES);
   const [errors, setErrors] = useState<FormErrors>({});
 
-  // Compared with the empty start, so typing something and deleting it again is not dirty.
   const isDirty =
     values.workingAssessment !== '' ||
     values.confidence !== '' ||
@@ -63,7 +59,6 @@ export function AssessmentForm({ isSaving = false, onDirtyChange, onSubmit }: As
 
   function handleChange(field: keyof FormValues, value: string) {
     setValues({ ...values, [field]: value });
-    // An error disappears as soon as that field is edited.
     setErrors({ ...errors, [field]: undefined });
   }
 
@@ -92,7 +87,6 @@ export function AssessmentForm({ isSaving = false, onDirtyChange, onSubmit }: As
     }
 
     setErrors(found);
-    // The two '' checks also narrow the types for the input below.
     if (Object.keys(found).length > 0 || confidence === '' || nextAction === '') return;
 
     onSubmit({

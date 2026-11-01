@@ -25,7 +25,6 @@ function AssessmentDetails({ assessment }: { assessment: Assessment }) {
     ['Working assessment', assessment.workingAssessment],
     ['Confidence', CONFIDENCE_LABELS[assessment.confidence]],
     ['Next action', NEXT_ACTION_LABELS[assessment.nextAction]],
-    // Only when the next action needed one.
     ...(assessment.followUpDate ? [['Follow-up date', formatDate(assessment.followUpDate)]] : []),
     ['Notes', assessment.notes || 'None'],
     ['Saved', formatDateTime(assessment.savedAt)],

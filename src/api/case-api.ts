@@ -4,7 +4,6 @@ import type { CaseDto } from './case.dto';
 import { toPatientCase } from './case.mapper';
 import seedCases from './cases.json';
 
-/** The only way the app reads or writes cases. A real backend implements this same interface. */
 export interface CaseApi {
   getCases(): Promise<PatientCase[]>;
   getCase(id: string): Promise<PatientCase>;
@@ -14,13 +13,10 @@ export interface CaseApi {
 
 const STORAGE_KEY = 'clinical-case-review.cases';
 
-/** Deterministic failure: saving an assessment whose notes contain this text always fails. */
 export const SAVE_FAILURE_TRIGGER = 'FAIL';
 
-// Simulates network latency so loading states are visible.
 const delay = () => new Promise((resolve) => setTimeout(resolve, 300));
 
-// Saved data wins; otherwise start from the JSON seed.
 function readCases(): CaseDto[] {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) return JSON.parse(stored) as CaseDto[];
@@ -91,5 +87,4 @@ export const mockCaseApi: CaseApi = {
   },
 };
 
-/** Swap point: replace mockCaseApi with an HTTP implementation to use a real backend. */
 export const caseApi: CaseApi = mockCaseApi;

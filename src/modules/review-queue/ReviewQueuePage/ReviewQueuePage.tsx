@@ -10,7 +10,6 @@ import { useCases } from '../../../shared/hooks/useCases';
 import { getReviewQueue } from '../../../shared/rules/review-queue';
 import { ReviewQueueTable } from '../components/ReviewQueueTable/ReviewQueueTable';
 
-// The shell is always visible, so the page keeps its heading and back link while loading or after an error.
 export function ReviewQueuePage() {
   return (
     <Container component="main" sx={{ py: 3 }}>
@@ -31,9 +30,7 @@ export function ReviewQueuePage() {
   );
 }
 
-// The part that changes: one early return per state.
 function ReviewQueueContent() {
-  // The same query as the case list, so both share one cache.
   const { data, isPending, isError, refetch } = useCases();
 
   if (isPending) {

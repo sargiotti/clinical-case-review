@@ -36,7 +36,6 @@ export function ReviewQueueTable({ entries }: ReviewQueueTableProps) {
               </TableCell>
               <TableCell>{patientCase.patient.initials}</TableCell>
               <TableCell>{PRIORITY_LABELS[patientCase.priority]}</TableCell>
-              {/* Words, so the reason does not depend on colour. */}
               <TableCell>{reasons.map((reason) => REVIEW_REASON_LABELS[reason]).join(', ')}</TableCell>
               <TableCell>{formatDateTime(patientCase.updatedAt)}</TableCell>
             </TableRow>

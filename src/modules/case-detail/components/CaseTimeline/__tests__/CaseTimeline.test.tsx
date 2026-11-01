@@ -5,7 +5,6 @@ import { CaseTimeline } from '../CaseTimeline';
 
 describe('CaseTimeline', () => {
   it('lists the events in date order, whatever order they arrive in', () => {
-    // detailedCase.timeline is stored latest-first on purpose.
     render(<CaseTimeline events={detailedCase.timeline} />);
 
     const events = screen.getAllByText(/Test ordered|Result received|Assessment saved/);
