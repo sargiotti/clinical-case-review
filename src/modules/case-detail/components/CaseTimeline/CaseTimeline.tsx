@@ -9,7 +9,7 @@ interface CaseTimelineProps {
 }
 
 export function CaseTimeline({ events }: CaseTimelineProps) {
-  const sorted = [...events].sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
+  const sorted = [...events].sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime());
 
   return (
     <SectionCard title="Timeline">
