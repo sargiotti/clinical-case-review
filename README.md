@@ -27,11 +27,8 @@ npm run dev     # start the app at http://localhost:5173
 
 ## Trying it out
 
-- The app starts with 12 mock cases. Changes you make (assessments, marking as reviewed) are saved
-  in your browser's localStorage, so they survive a refresh.
-- To reset to the original data, delete the `clinical-case-review.cases` key in DevTools
-  (Application → Local Storage) and reload.
-- To see a failed save, type `FAIL` in the assessment notes and save. Remove it and retry to succeed.
+The app starts with 12 mock cases, and the changes you make are saved in your browser. To see a failed save
+or to reset the data, see [Mock persistence and failures](#mock-persistence-and-failures).
 
 ## How it's built
 
@@ -124,3 +121,47 @@ A case is in the review queue when it is not yet reviewed and has at least one o
 
 Cases are ordered by their most urgent reason, then by oldest update first. Marking a case as reviewed
 removes it from the queue.
+
+## Mock persistence and failures
+
+There is no backend. `src/api/case-api.ts` plays the role of one:
+
+- **Starting data:** `src/api/cases.json` holds 12 mock cases. It is a read-only seed that is never modified.
+- **Saving:** the first time you save an assessment or mark a case as reviewed, the app copies the cases into
+  your browser's localStorage (key `clinical-case-review.cases`). From then on it reads and writes only there, so
+  your changes survive a refresh.
+- **Network delay:** every call waits 300 ms, so the loading states are visible.
+- **Simulated failure:** saving an assessment whose notes contain `FAIL` always fails, every time. The form keeps
+  what you typed and shows the error with a Retry button. Remove `FAIL` and save again to succeed.
+- **Reset:** delete the `clinical-case-review.cases` key in DevTools (Application → Local Storage) and reload.
+
+## Accessibility, privacy and error handling
+
+**Accessibility**
+- Abnormal results use words and a symbol as well as colour (▲ High, ▼▼ Critical low), so colour is never the only signal.
+- Semantic HTML: real tables, headings, description lists, and a timeline built as an ordered list of `<time>` elements.
+- Every form field has a label. Validation errors are linked to their field, and only required fields can block a save.
+- Success messages are announced politely (`role="status"`) and failures assertively (`role="alert"`).
+- Dialogs trap focus and close with Esc. The "Reviewed" button stays on screen, disabled, so keyboard focus is not lost.
+
+**Privacy**
+- The UI only ever receives a patient's initials. Full names stay in the data layer and never reach a component.
+- URLs contain only filters and the case ID, and search matches case ID or initials only. Nothing is logged.
+- localStorage holds the mock data only, no personal data beyond what the exercise provides.
+
+**Error handling**
+- Every async screen has loading, error and Retry states: list, detail, review queue, save and mark as reviewed.
+- A failed save keeps what you typed, and leaving with unsaved changes asks for confirmation first.
+
+## Trade-offs and next steps
+
+**Trade-offs**
+- Filter values in the URL are not validated: `?status=banana` simply shows the empty state.
+- localStorage is per browser, with no concurrency control, and the whole list is rewritten on every save.
+- The two forms use plain React state and inline validation. A form library would pay off with more forms.
+
+**With more time**
+- An audit trail: who changed an assessment, what changed and when.
+- Roles (clinician and reviewer) with a mock login, so only reviewers can mark a case as reviewed.
+- A real API adapter with server-side filtering and pagination, replacing the mock in one place.
+- An end-to-end test of the whole flow (filter, assess, save, review) and automated accessibility checks.
