@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router';
 import { AssessmentModal } from '../components/AssessmentModal/AssessmentModal';
+import { AssessmentSummary } from '../components/AssessmentSummary/AssessmentSummary';
 import { CaseTimeline } from '../components/CaseTimeline/CaseTimeline';
 import { ImagingReportList } from '../components/ImagingReportList/ImagingReportList';
 import { LabResultsTable } from '../components/LabResultsTable/LabResultsTable';
@@ -62,6 +63,7 @@ function CaseDetailContent({ caseId }: { caseId: string }) {
       <ListSection title="Medical history" items={data.patient.medicalHistory} />
       <LabResultsTable labResults={data.labResults} />
       <ImagingReportList reports={data.imagingReports} />
+      <AssessmentSummary assessment={data.assessment} />
       <CaseTimeline events={data.timeline} />
       <AssessmentModal caseId={data.id} open={assessing} onClose={() => setAssessing(false)} />
     </>

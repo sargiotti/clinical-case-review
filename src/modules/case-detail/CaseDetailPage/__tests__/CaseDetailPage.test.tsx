@@ -46,7 +46,7 @@ describe('CaseDetailPage', () => {
     renderPage();
 
     // The sections have their own tests; this proves each one is actually on the page.
-    for (const name of ['Patient', 'Symptoms', 'Medical history', 'Laboratory results', 'Imaging reports', 'Timeline']) {
+    for (const name of ['Patient', 'Symptoms', 'Medical history', 'Laboratory results', 'Imaging reports', 'Latest assessment', 'Timeline']) {
       expect(await screen.findByRole('heading', { name, level: 2 })).toBeInTheDocument();
     }
   });

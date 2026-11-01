@@ -8,6 +8,11 @@ export function formatDateTime(iso: string): string {
   return new Date(iso).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
 }
 
+/** "2026-11-12" → "12 Nov 2026". A plain day with no time, so it is read as local time, not UTC. */
+export function formatDate(isoDate: string): string {
+  return new Date(`${isoDate}T00:00:00`).toLocaleDateString('en-GB', { dateStyle: 'medium' });
+}
+
 // Record<Union, string> makes the compiler demand a label for every value.
 export const STATUS_LABELS: Record<CaseStatus, string> = {
   open: 'Open',
