@@ -86,6 +86,9 @@ cases.json / localStorage  →  DTO  →  mapper  →  domain type  →  UI
   The app picks its implementation in one line, `export const caseApi: CaseApi = mockCaseApi`, so a real
   backend only needs a new implementation and that line changed.
 
+For a visual overview of the types, open [`docs/domain.html`](docs/domain.html). Like the architecture
+diagram, it is a standalone file to open in a browser after cloning.
+
 ## Clinical rules
 
 Both rules are plain functions in `src/shared/rules/`, with unit tests for the boundary cases.
