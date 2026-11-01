@@ -1,4 +1,5 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { mockCases } from '../../../../../test/mock-cases';
 import { renderWithProviders } from '../../../../../test/render';
@@ -20,6 +21,15 @@ describe('CaseTable', () => {
     expect(row).toHaveTextContent('Urgent');
     expect(row).not.toHaveTextContent('urgent');
     expect(row).not.toHaveTextContent('2026-10-28T09:15:00Z');
+  });
+
+  it('opens the case when anywhere on its row is clicked', async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<CaseTable cases={mockCases} />);
+
+    await user.click(within(screen.getByRole('row', { name: /C-002/ })).getByText('JO'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent('/cases/C-002');
   });
 
   it('links each case ID to its detail page', () => {

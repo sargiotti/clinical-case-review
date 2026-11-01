@@ -9,7 +9,7 @@ import { CaseDetailPage } from './modules/case-detail/CaseDetailPage/CaseDetailP
 import { CaseListPage } from './modules/case-list/CaseListPage/CaseListPage.tsx';
 import { ReviewQueuePage } from './modules/review-queue/ReviewQueuePage/ReviewQueuePage.tsx';
 
-const theme = createTheme();
+const theme = createTheme({ palette: { background: { default: '#f5f6f8' } } });
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 

@@ -1,24 +1,29 @@
 import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Link as RouterLink } from 'react-router';
+import { Link as RouterLink, useNavigate } from 'react-router';
 import type { PatientCase } from '../../../../domain/case';
-import { PRIORITY_LABELS, STATUS_LABELS, formatDateTime } from '../../../../shared/utils/format';
+import { PriorityChip } from '../../../../shared/components/PriorityChip/PriorityChip';
+import { StatusChip } from '../../../../shared/components/StatusChip/StatusChip';
+import { formatDateTime } from '../../../../shared/utils/format';
 
 interface CaseTableProps {
   cases: PatientCase[];
 }
 
 export function CaseTable({ cases }: CaseTableProps) {
+  const navigate = useNavigate();
+
   return (
-    <TableContainer>
+    <TableContainer component={Paper} variant="outlined">
       <Table aria-label="Patient cases">
         <TableHead>
-          <TableRow>
+          <TableRow sx={{ '& th': { fontWeight: 600, bgcolor: 'grey.100' } }}>
             <TableCell>Case ID</TableCell>
             <TableCell>Initials</TableCell>
             <TableCell>Age</TableCell>
@@ -29,7 +34,14 @@ export function CaseTable({ cases }: CaseTableProps) {
         </TableHead>
         <TableBody>
           {cases.map((c) => (
-            <TableRow key={c.id}>
+            <TableRow
+              key={c.id}
+              hover
+              sx={{ cursor: 'pointer' }}
+              onClick={(event) => {
+                if (!(event.target as HTMLElement).closest('a')) navigate(`/cases/${c.id}`);
+              }}
+            >
               <TableCell>
                 <Link component={RouterLink} to={`/cases/${c.id}`}>
                   {c.id}
@@ -37,8 +49,12 @@ export function CaseTable({ cases }: CaseTableProps) {
               </TableCell>
               <TableCell>{c.patient.initials}</TableCell>
               <TableCell>{c.patient.age}</TableCell>
-              <TableCell>{STATUS_LABELS[c.status]}</TableCell>
-              <TableCell>{PRIORITY_LABELS[c.priority]}</TableCell>
+              <TableCell>
+                <StatusChip status={c.status} />
+              </TableCell>
+              <TableCell>
+                <PriorityChip priority={c.priority} />
+              </TableCell>
               <TableCell>{formatDateTime(c.updatedAt)}</TableCell>
             </TableRow>
           ))}
