@@ -83,3 +83,23 @@ export const detailedCase: PatientCase = {
 
 /** Deliberately not in date order, so tests can prove the page sorts newest first. */
 export const mockCases: PatientCase[] = [lowReviewedCase, urgentOpenCase, highAssessedCase, mediumOpenCase];
+
+/** Needs review: potassium 7.0 is beyond the critical high limit (6.5). */
+export const criticalLabCase: PatientCase = {
+  ...urgentOpenCase,
+  id: 'C-005',
+  labResults: [{ id: 'L1', testCode: 'K', name: 'Potassium', value: 7.0, unit: 'mmol/L' }],
+};
+
+/** Needs review: the assessment was made with low confidence. */
+export const lowConfidenceCase: PatientCase = {
+  ...highAssessedCase,
+  id: 'C-006',
+  assessment: {
+    workingAssessment: 'Unclear chest pain',
+    confidence: 'low',
+    nextAction: 'discharge',
+    notes: '',
+    savedAt: '2026-10-26T16:40:00Z',
+  },
+};
