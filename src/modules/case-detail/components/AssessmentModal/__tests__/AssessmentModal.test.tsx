@@ -5,17 +5,22 @@ import { caseApi } from '../../../../../api/case-api';
 import { fillAssessmentForm } from '../../../../../test/assessment-form';
 import { detailedCase } from '../../../../../test/mock-cases';
 import { renderWithProviders } from '../../../../../test/render';
-import { AssessmentSection } from '../AssessmentSection';
+import { AssessmentModal } from '../AssessmentModal';
 
-describe('AssessmentSection', () => {
+function renderModal(onClose = vi.fn()) {
+  renderWithProviders(<AssessmentModal caseId="C-100" open onClose={onClose} />);
+  return onClose;
+}
+
+describe('AssessmentModal', () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it('saves the entered assessment and confirms it', async () => {
+  it('saves the entered assessment, confirms it inside the modal and removes the form', async () => {
     const user = userEvent.setup();
     const saveAssessment = vi.spyOn(caseApi, 'saveAssessment').mockResolvedValue(detailedCase);
-    renderWithProviders(<AssessmentSection caseId="C-100" />);
+    const onClose = renderModal();
 
     await fillAssessmentForm(user);
     await user.click(screen.getByRole('button', { name: 'Save assessment' }));
@@ -28,6 +33,11 @@ describe('AssessmentSection', () => {
       notes: '',
       followUpDate: undefined,
     });
+    // The form is gone, so the assessment cannot be saved twice.
+    expect(screen.queryByRole('button', { name: 'Save assessment' })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Close' }));
+    expect(onClose).toHaveBeenCalledOnce();
   });
 
   it('shows the failure, keeps what was typed, and Retry saves it', async () => {
@@ -36,7 +46,7 @@ describe('AssessmentSection', () => {
       .spyOn(caseApi, 'saveAssessment')
       .mockRejectedValueOnce(new Error('The assessment could not be saved. Please try again.'))
       .mockResolvedValue(detailedCase);
-    renderWithProviders(<AssessmentSection caseId="C-100" />);
+    renderModal();
 
     await fillAssessmentForm(user);
     await user.type(screen.getByRole('textbox', { name: 'Notes' }), 'FAIL please');

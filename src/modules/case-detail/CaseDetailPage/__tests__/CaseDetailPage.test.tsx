@@ -68,6 +68,7 @@ describe('CaseDetailPage', () => {
     await screen.findByRole('heading', { name: 'Timeline' });
     expect(screen.getAllByText('Assessment saved')).toHaveLength(1);
 
+    await user.click(screen.getByRole('button', { name: 'Add assessment' }));
     await fillAssessmentForm(user, 'Follow up');
     await user.type(screen.getByLabelText(/Follow-up date/), '2999-01-01');
     await user.click(screen.getByRole('button', { name: 'Save assessment' }));

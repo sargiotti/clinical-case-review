@@ -5,8 +5,9 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router';
-import { AssessmentSection } from '../components/AssessmentSection/AssessmentSection';
+import { AssessmentModal } from '../components/AssessmentModal/AssessmentModal';
 import { CaseTimeline } from '../components/CaseTimeline/CaseTimeline';
 import { ImagingReportList } from '../components/ImagingReportList/ImagingReportList';
 import { LabResultsTable } from '../components/LabResultsTable/LabResultsTable';
@@ -37,6 +38,7 @@ export function CaseDetailPage() {
 // The part that changes: one early return per state.
 function CaseDetailContent({ caseId }: { caseId: string }) {
   const { data, isPending, isError, refetch } = useCase(caseId);
+  const [assessing, setAssessing] = useState(false);
 
   if (isPending) {
     return <CircularProgress aria-label="Loading case" />;
@@ -52,13 +54,16 @@ function CaseDetailContent({ caseId }: { caseId: string }) {
 
   return (
     <>
+      <Button variant="contained" onClick={() => setAssessing(true)} sx={{ alignSelf: 'flex-start' }}>
+        Add assessment
+      </Button>
       <PatientSummary patientCase={data} />
       <ListSection title="Symptoms" items={data.symptoms} />
       <ListSection title="Medical history" items={data.patient.medicalHistory} />
       <LabResultsTable labResults={data.labResults} />
       <ImagingReportList reports={data.imagingReports} />
       <CaseTimeline events={data.timeline} />
-      <AssessmentSection caseId={data.id} />
+      <AssessmentModal caseId={data.id} open={assessing} onClose={() => setAssessing(false)} />
     </>
   );
 }
