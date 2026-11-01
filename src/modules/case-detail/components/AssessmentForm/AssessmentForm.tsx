@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import {
   CONFIDENCE_LEVELS,
   NEXT_ACTIONS,
@@ -40,12 +40,24 @@ const EMPTY_VALUES: FormValues = {
 interface AssessmentFormProps {
   /** Disables the button while a save is in flight, so it cannot be submitted twice. */
   isSaving?: boolean;
+  /** Tells the parent whether the form holds anything typed, so it can warn before that is lost. */
+  onDirtyChange?: (dirty: boolean) => void;
   onSubmit: (input: AssessmentInput) => void;
 }
 
-export function AssessmentForm({ isSaving = false, onSubmit }: AssessmentFormProps) {
+export function AssessmentForm({ isSaving = false, onDirtyChange, onSubmit }: AssessmentFormProps) {
   const [values, setValues] = useState<FormValues>(EMPTY_VALUES);
   const [errors, setErrors] = useState<FormErrors>({});
+
+  // Compared with the empty start, so typing something and deleting it again is not dirty.
+  const isDirty =
+    values.workingAssessment !== '' ||
+    values.confidence !== '' ||
+    values.nextAction !== '' ||
+    values.notes !== '' ||
+    values.followUpDate !== '';
+
+  useEffect(() => onDirtyChange?.(isDirty), [isDirty, onDirtyChange]);
 
   const needsFollowUp = values.nextAction === 'follow_up' || values.nextAction === 'refer';
 

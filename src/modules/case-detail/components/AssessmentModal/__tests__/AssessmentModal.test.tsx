@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { caseApi } from '../../../../../api/case-api';
@@ -37,6 +37,38 @@ describe('AssessmentModal', () => {
     expect(screen.queryByRole('button', { name: 'Save assessment' })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Close' }));
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
+  it('closes straight away when nothing was typed, or when it was typed and deleted again', async () => {
+    const user = userEvent.setup();
+    const onClose = renderModal();
+
+    const field = screen.getByRole('textbox', { name: /Working assessment/ });
+    await user.type(field, 'x');
+    await user.clear(field);
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+
+    expect(onClose).toHaveBeenCalledOnce();
+    expect(screen.queryByText('Discard unsaved changes?')).not.toBeInTheDocument();
+  });
+
+  it('asks before closing with typed input; Stay keeps it and Discard closes', async () => {
+    const user = userEvent.setup();
+    const onClose = renderModal();
+
+    await user.type(screen.getByRole('textbox', { name: /Working assessment/ }), 'Pneumonia');
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+
+    expect(await screen.findByText('Discard unsaved changes?')).toBeInTheDocument();
+    expect(onClose).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Stay' }));
+    await waitFor(() => expect(screen.queryByText('Discard unsaved changes?')).not.toBeInTheDocument());
+    expect(screen.getByRole('textbox', { name: /Working assessment/ })).toHaveValue('Pneumonia');
+
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    await user.click(await screen.findByRole('button', { name: 'Discard' }));
     expect(onClose).toHaveBeenCalledOnce();
   });
 

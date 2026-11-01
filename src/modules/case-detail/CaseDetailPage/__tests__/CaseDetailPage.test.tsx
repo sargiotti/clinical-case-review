@@ -12,6 +12,7 @@ import { CaseDetailPage } from '../CaseDetailPage';
 function renderPage() {
   return renderWithProviders(
     <Routes>
+      <Route path="/" element={<p>Cases home</p>} />
       <Route path="/cases/:caseId" element={<CaseDetailPage />} />
     </Routes>,
     `/cases/${detailedCase.id}`,
@@ -74,6 +75,41 @@ describe('CaseDetailPage', () => {
     await user.click(screen.getByRole('button', { name: 'Save assessment' }));
 
     await waitFor(() => expect(screen.getAllByText('Assessment saved')).toHaveLength(2));
+  });
+
+  it('warns before leaving the page with an unsaved assessment; Stay keeps it, Discard leaves', async () => {
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByRole('heading', { name: 'Patient' });
+
+    await user.click(screen.getByRole('button', { name: 'Add assessment' }));
+    await user.type(screen.getByRole('textbox', { name: /Working assessment/ }), 'Pneumonia');
+    // The modal hides the page from the accessibility tree, so the link is found by its text.
+    await user.click(screen.getByText('← Back to cases'));
+
+    expect(await screen.findByText('Discard unsaved changes?')).toBeInTheDocument();
+    expect(screen.getByTestId('location')).toHaveTextContent('/cases/C-100');
+
+    await user.click(screen.getByRole('button', { name: 'Stay' }));
+    expect(screen.getByTestId('location')).toHaveTextContent('/cases/C-100');
+    // Found with findBy: the confirm dialog is still fading out, and hides the modal until it is gone.
+    expect(await screen.findByRole('textbox', { name: /Working assessment/ })).toHaveValue('Pneumonia');
+
+    await user.click(screen.getByText('← Back to cases'));
+    await user.click(await screen.findByRole('button', { name: 'Discard' }));
+    expect(await screen.findByText('Cases home')).toBeInTheDocument();
+    expect(screen.getByTestId('location')).toHaveTextContent(/^\/$/);
+  });
+
+  it('leaves the page without a warning when nothing was typed', async () => {
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByRole('heading', { name: 'Patient' });
+
+    await user.click(screen.getByRole('link', { name: '← Back to cases' }));
+
+    expect(await screen.findByText('Cases home')).toBeInTheDocument();
+    expect(screen.queryByText('Discard unsaved changes?')).not.toBeInTheDocument();
   });
 
   it('shows an error when the case cannot be loaded, and Retry loads it', async () => {
