@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Domain Model</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --card: #ffffff; --text: #1d1d1f; --muted: #6b6b70;
+    --border: #dcdcd8; --accent: #2457c5; --accent-bg: #e8eefb;
+    --opt: #8a5a00; --code-bg: #f0f0ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151518; --card: #1f1f23; --text: #ececee; --muted: #9a9aa2;
+      --border: #34343a; --accent: #7da2ff; --accent-bg: #23293a;
+      --opt: #e0b45c; --code-bg: #2a2a30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { margin: 0 0 4px; font-size: 26px; }
+  h2 { margin: 40px 0 12px; font-size: 18px; }
+  p.lead { margin: 0; color: var(--muted); }
+  code, .mono { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 13px; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px;
+  }
+  .card.root { border: 2px solid var(--accent); }
+  .card h3 { margin: 0 0 2px; font-size: 15px; }
+  .card .file { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+  .card ul { margin: 0; padding: 0; list-style: none; }
+  .card li { padding: 2px 0; border-top: 1px dashed var(--border); }
+  .card li:first-child { border-top: 0; }
+  .t { color: var(--muted); }
+  .opt { color: var(--opt); }
+  .rel { color: var(--accent); }
+  .badge {
+    display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 99px;
+    background: var(--accent-bg); color: var(--accent); margin-left: 6px; vertical-align: 1px;
+  }
+  .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+  .flow .card { flex: 1 1 220px; }
+  .arrow { align-self: center; color: var(--muted); font-size: 20px; padding: 0 2px; }
+  .chips span {
+    display: inline-block; background: var(--code-bg); border-radius: 6px; padding: 1px 7px; margin: 2px 2px 0 0;
+  }
+  .note { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  @media (max-width: 600px) { .arrow { transform: rotate(90deg); width: 100%; text-align: center; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Clinical Case Review: Domain Model</h1>
+  <p class="lead">
+    Types live in <code>src/domain/</code>. <span class="opt">Orange</span> = optional field,
+    <span class="rel">blue</span> = reference to another entity.
+  </p>
+
+  <h2>Aggregate: a case and everything it owns</h2>
+  <div class="grid">
+    <div class="card root">
+      <h3>PatientCase <span class="badge">root</span></h3>
+      <div class="file mono">case.ts</div>
+      <ul class="mono">
+        <li>id <span class="t">string</span></li>
+        <li class="rel">patient <span class="t">Patient</span></li>
+        <li>status <span class="t">CaseStatus</span></li>
+        <li>priority <span class="t">CasePriority</span></li>
+        <li>updatedAt <span class="t">ISO string</span></li>
+        <li>symptoms <span class="t">string[]</span></li>
+        <li class="rel">labResults <span class="t">LabResult[]</span></li>
+        <li class="rel">imagingReports <span class="t">ImagingReport[]</span></li>
+        <li class="rel">timeline <span class="t">TimelineEvent[]</span></li>
+        <li class="opt rel">assessment? <span class="t">Assessment</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Patient <span class="badge">1</span></h3>
+      <div class="file mono">patient.ts</div>
+      <ul class="mono">
+        <li>initials <span class="t">string</span></li>
+        <li>age <span class="t">number</span></li>
+        <li>medicalHistory <span class="t">string[]</span></li>
+      </ul>
+      <p class="note">De-identified: no name. Built by the mapper (see below).</p>
+    </div>
+    <div class="card">
+      <h3>LabResult <span class="badge">0..n</span></h3>
+      <div class="file mono">results.ts</div>
+      <ul class="mono">
+        <li>id <span class="t">string</span></li>
+        <li>testCode <span class="t">string</span></li>
+        <li>name <span class="t">string</span></li>
+        <li>value <span class="t">number</span></li>
+        <li>unit <span class="t">string</span></li>
+      </ul>
+      <p class="note"><code>testCode</code> is the key into the reference-range config.</p>
+    </div>
+    <div class="card">
+      <h3>ImagingReport <span class="badge">0..n</span></h3>
+      <div class="file mono">results.ts</div>
+      <ul class="mono">
+        <li>id <span class="t">string</span></li>
+        <li>modality <span class="t">string</span></li>
+        <li>findings <span class="t">string</span></li>
+        <li>flaggedAbnormal <span class="t">boolean</span></li>
+      </ul>
+      <p class="note">Free text, so abnormality is flagged by the radiologist, not computed.</p>
+    </div>
+    <div class="card">
+      <h3>Assessment <span class="badge">0..1</span></h3>
+      <div class="file mono">assessment.ts</div>
+      <ul class="mono">
+        <li>workingAssessment <span class="t">string</span></li>
+        <li>confidence <span class="t">ConfidenceLevel</span></li>
+        <li>nextAction <span class="t">NextAction</span></li>
+        <li>notes <span class="t">string</span></li>
+        <li class="opt">followUpDate? <span class="t">ISO date</span></li>
+        <li>savedAt <span class="t">ISO string</span></li>
+      </ul>
+      <p class="note"><code>followUpDate</code> only when next action is follow_up or refer.</p>
+    </div>
+    <div class="card">
+      <h3>TimelineEvent <span class="badge">0..n</span></h3>
+      <div class="file mono">timeline.ts</div>
+      <ul class="mono">
+        <li>id <span class="t">string</span></li>
+        <li>type <span class="t">TimelineEventType</span></li>
+        <li>at <span class="t">ISO string</span></li>
+        <li>description <span class="t">string</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Data layer: DTO → mapper → domain</h2>
+  <div class="flow">
+    <div class="card">
+      <h3>PatientDto</h3>
+      <div class="file mono">api/dtos/patient.dto.ts</div>
+      <ul class="mono">
+        <li>firstName <span class="t">string</span></li>
+        <li>lastName <span class="t">string</span></li>
+        <li>age <span class="t">number</span></li>
+        <li>medicalHistory <span class="t">string[]</span></li>
+      </ul>
+    </div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="card">
+      <h3>toPatient(dto)</h3>
+      <div class="file mono">api/mappers/patient.mapper.ts</div>
+      <p class="note" style="margin-top:0">
+        Pure function. Builds <code>initials</code> from first + last name and drops the full name,
+        so it never reaches the UI, URLs or logs.
+      </p>
+    </div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="card">
+      <h3>Patient</h3>
+      <div class="file mono">domain/patient.ts</div>
+      <ul class="mono">
+        <li>initials <span class="t">string</span></li>
+        <li>age <span class="t">number</span></li>
+        <li>medicalHistory <span class="t">string[]</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Value lists</h2>
+  <p class="note" style="margin-top:0">Declared as <code>const</code> arrays: the type is derived from the array, and the UI renders options from the same array.</p>
+  <div class="grid">
+    <div class="card"><h3>CaseStatus</h3><div class="chips mono"><span>open</span><span>assessed</span><span>reviewed</span></div></div>
+    <div class="card"><h3>CasePriority</h3><div class="chips mono"><span>low</span><span>medium</span><span>high</span><span>urgent</span></div></div>
+    <div class="card"><h3>ConfidenceLevel</h3><div class="chips mono"><span>low</span><span>medium</span><span>high</span></div></div>
+    <div class="card"><h3>NextAction</h3><div class="chips mono"><span>discharge</span><span>follow_up</span><span>order_tests</span><span>refer</span></div></div>
+    <div class="card"><h3>TimelineEventType</h3><div class="chips mono"><span>test_ordered</span><span>result_received</span><span>assessment_saved</span><span>case_reviewed</span></div></div>
+  </div>
+
+  <h2>Rule inputs and outputs</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>ReferenceRange</h3>
+      <div class="file mono">results.ts</div>
+      <ul class="mono">
+        <li>low <span class="t">number</span></li>
+        <li>high <span class="t">number</span></li>
+        <li class="opt">criticalLow? <span class="t">number</span></li>
+        <li class="opt">criticalHigh? <span class="t">number</span></li>
+      </ul>
+      <p class="note">Type only. The values live in a config keyed by <code>testCode</code>.</p>
+    </div>
+    <div class="card">
+      <h3>ResultFlag</h3>
+      <div class="file mono">results.ts</div>
+      <div class="chips mono"><span>normal</span><span>low</span><span>high</span><span>critical_low</span><span>critical_high</span></div>
+      <p class="note">Output of classifying a lab value against its range.</p>
+    </div>
+    <div class="card">
+      <h3>ReviewReason</h3>
+      <div class="file mono">review.ts</div>
+      <div class="chips mono"><span>critical_result</span><span>overdue_follow_up</span><span>low_confidence</span></div>
+      <p class="note">Why a case is in the review queue, most urgent first.</p>
+    </div>
+  </div>
+</main>
+</body>
+</html>
