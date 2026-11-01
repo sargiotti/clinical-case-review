@@ -7,6 +7,8 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router';
+import { PriorityChip } from '../../../shared/components/PriorityChip/PriorityChip';
+import { StatusChip } from '../../../shared/components/StatusChip/StatusChip';
 import { AssessmentModal } from '../components/AssessmentModal/AssessmentModal';
 import { AssessmentSummary } from '../components/AssessmentSummary/AssessmentSummary';
 import { CaseTimeline } from '../components/CaseTimeline/CaseTimeline';
@@ -53,11 +55,17 @@ function CaseDetailContent({ caseId }: { caseId: string }) {
 
   return (
     <>
-      <Stack direction="row" spacing={2} sx={{ alignItems: 'flex-start' }}>
-        <Button variant="contained" onClick={() => setAssessing(true)}>
-          Add assessment
-        </Button>
-        <MarkReviewedButton caseId={data.id} reviewed={data.status === 'reviewed'} />
+      <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+        <Stack direction="row" spacing={1}>
+          <StatusChip status={data.status} />
+          <PriorityChip priority={data.priority} />
+        </Stack>
+        <Stack direction="row" spacing={2} sx={{ alignItems: 'flex-start' }}>
+          <Button variant="contained" onClick={() => setAssessing(true)}>
+            Add assessment
+          </Button>
+          <MarkReviewedButton caseId={data.id} reviewed={data.status === 'reviewed'} />
+        </Stack>
       </Stack>
       <PatientSummary patientCase={data} />
       <ListSection title="Symptoms" items={data.symptoms} />

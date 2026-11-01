@@ -40,6 +40,17 @@ describe('CaseDetailPage', () => {
     expect(screen.getByText('Hypertension')).toBeInTheDocument();
   });
 
+  it('shows the status and priority next to the actions', async () => {
+    renderPage();
+
+    await screen.findByRole('heading', { name: 'Patient' });
+
+    expect(screen.getByText('Open')).toBeInTheDocument();
+    expect(screen.getByText('Urgent')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add assessment' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Mark as reviewed' })).toBeInTheDocument();
+  });
+
   it('shows every section of the case', async () => {
     renderPage();
 

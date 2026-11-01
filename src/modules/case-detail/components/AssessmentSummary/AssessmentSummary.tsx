@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Fragment } from 'react';
 import type { Assessment } from '../../../../domain/assessment';
+import { SectionCard } from '../../../../shared/components/SectionCard/SectionCard';
 import { CONFIDENCE_LABELS, formatDate, formatDateTime, NEXT_ACTION_LABELS } from '../../../../shared/utils/format';
 
 interface AssessmentSummaryProps {
@@ -11,12 +11,9 @@ interface AssessmentSummaryProps {
 
 export function AssessmentSummary({ assessment }: AssessmentSummaryProps) {
   return (
-    <Stack spacing={1}>
-      <Typography variant="h6" component="h2">
-        Latest assessment
-      </Typography>
+    <SectionCard title="Latest assessment">
       {assessment ? <AssessmentDetails assessment={assessment} /> : <Typography color="text.secondary">None recorded</Typography>}
-    </Stack>
+    </SectionCard>
   );
 }
 

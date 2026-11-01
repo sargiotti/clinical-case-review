@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { SectionCard } from '../../../../shared/components/SectionCard/SectionCard';
 
 interface ListSectionProps {
   title: string;
@@ -9,10 +9,7 @@ interface ListSectionProps {
 
 export function ListSection({ title, items }: ListSectionProps) {
   return (
-    <Stack spacing={1}>
-      <Typography variant="h6" component="h2">
-        {title}
-      </Typography>
+    <SectionCard title={title}>
       {items.length === 0 ? (
         <Typography color="text.secondary">None recorded</Typography>
       ) : (
@@ -22,6 +19,6 @@ export function ListSection({ title, items }: ListSectionProps) {
           ))}
         </Box>
       )}
-    </Stack>
+    </SectionCard>
   );
 }

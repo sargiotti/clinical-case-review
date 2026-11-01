@@ -2,6 +2,7 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import type { ImagingReport } from '../../../../domain/results';
+import { SectionCard } from '../../../../shared/components/SectionCard/SectionCard';
 
 interface ImagingReportListProps {
   reports: ImagingReport[];
@@ -9,10 +10,7 @@ interface ImagingReportListProps {
 
 export function ImagingReportList({ reports }: ImagingReportListProps) {
   return (
-    <Stack spacing={1}>
-      <Typography variant="h6" component="h2">
-        Imaging reports
-      </Typography>
+    <SectionCard title="Imaging reports">
       {reports.length === 0 ? (
         <Typography color="text.secondary">None recorded</Typography>
       ) : (
@@ -44,6 +42,6 @@ export function ImagingReportList({ reports }: ImagingReportListProps) {
           ))}
         </Stack>
       )}
-    </Stack>
+    </SectionCard>
   );
 }

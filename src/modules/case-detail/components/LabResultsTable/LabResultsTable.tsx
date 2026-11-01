@@ -1,5 +1,5 @@
 import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
+import { alpha } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import type { LabResult, ResultFlag } from '../../../../domain/results';
+import { SectionCard } from '../../../../shared/components/SectionCard/SectionCard';
 import { REFERENCE_RANGES } from '../../../../shared/config/reference-ranges';
 import { getLabFlag } from '../../../../shared/rules/classify-result';
 
@@ -51,17 +52,14 @@ interface LabResultsTableProps {
 
 export function LabResultsTable({ labResults }: LabResultsTableProps) {
   return (
-    <Stack spacing={1}>
-      <Typography variant="h6" component="h2">
-        Laboratory results
-      </Typography>
+    <SectionCard title="Laboratory results">
       {labResults.length === 0 ? (
         <Typography color="text.secondary">None recorded</Typography>
       ) : (
         <TableContainer>
           <Table size="small" aria-label="Laboratory results">
             <TableHead>
-              <TableRow>
+              <TableRow sx={{ '& th': { fontWeight: 600, bgcolor: 'grey.100' } }}>
                 <TableCell>Test</TableCell>
                 <TableCell>Result</TableCell>
                 <TableCell>Reference range</TableCell>
@@ -73,9 +71,13 @@ export function LabResultsTable({ labResults }: LabResultsTableProps) {
                 const flag = getLabFlag(lab);
                 const range = REFERENCE_RANGES[lab.testCode];
                 const isAbnormal = flag !== undefined && flag !== 'normal';
+                const isCritical = flag === 'critical_low' || flag === 'critical_high';
 
                 return (
-                  <TableRow key={lab.id}>
+                  <TableRow
+                    key={lab.id}
+                    sx={isCritical ? { bgcolor: (theme) => alpha(theme.palette.error.main, 0.08) } : undefined}
+                  >
                     <TableCell>{lab.name}</TableCell>
                     <TableCell sx={{ fontWeight: isAbnormal ? 'bold' : undefined }}>
                       {lab.value} {lab.unit}
@@ -91,6 +93,6 @@ export function LabResultsTable({ labResults }: LabResultsTableProps) {
           </Table>
         </TableContainer>
       )}
-    </Stack>
+    </SectionCard>
   );
 }
