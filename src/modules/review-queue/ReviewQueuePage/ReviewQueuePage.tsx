@@ -20,10 +20,10 @@ export function ReviewQueuePage() {
         <Typography variant="h4" component="h1">
           Review queue
         </Typography>
-        <Typography color="text.secondary">
+        <Alert severity="info" role="note">
           Cases appear here when they have a critical result, an overdue follow-up or a low-confidence assessment.
           Critical results come first.
-        </Typography>
+        </Alert>
         <ReviewQueueContent />
       </Stack>
     </Container>

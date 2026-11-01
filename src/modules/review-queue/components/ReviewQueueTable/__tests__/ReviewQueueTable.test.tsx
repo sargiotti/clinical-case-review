@@ -1,4 +1,5 @@
 import { screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { criticalLabCase, lowConfidenceCase } from '../../../../../test/mock-cases';
 import { renderWithProviders } from '../../../../../test/render';
@@ -20,6 +21,15 @@ describe('ReviewQueueTable', () => {
     expect(within(table).getByRole('link', { name: 'C-006' })).toHaveAttribute('href', '/cases/C-006');
   });
 
+  it('opens the case when anywhere on its row is clicked', async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<ReviewQueueTable entries={[{ patientCase: criticalLabCase, reasons: ['critical_result'] }]} />);
+
+    await user.click(within(screen.getByRole('row', { name: /C-005/ })).getByText('Critical result'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent('/cases/C-005');
+  });
+
   it('says why each case is there, in words, and keeps the order it was given', () => {
     renderWithProviders(
       <ReviewQueueTable
@@ -32,7 +42,8 @@ describe('ReviewQueueTable', () => {
 
     const rows = screen.getAllByRole('row');
     expect(rows[1]).toHaveTextContent('C-006');
-    expect(rows[1]).toHaveTextContent('Overdue follow-up, Low confidence');
+    expect(within(rows[1]).getByText('Overdue follow-up')).toBeInTheDocument();
+    expect(within(rows[1]).getByText('Low confidence')).toBeInTheDocument();
     expect(rows[2]).toHaveTextContent('C-005');
     expect(rows[2]).toHaveTextContent('Critical result');
   });
